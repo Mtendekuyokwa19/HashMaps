@@ -1,6 +1,6 @@
 class Hashmaps{
 
-  HashTable=[];
+  HashTable=new Array(16);
 
 hash(key){
 
@@ -11,7 +11,7 @@ for (let i = 0; i < key.length; i++) {
   hashCode=hashCode*primeNumber+key.charCodeAt(i)
   
 }
-hashCode=hashCode%16
+hashCode=hashCode%this.HashTable.length
 
  return hashCode
 }
@@ -19,16 +19,26 @@ hashCode=hashCode%16
 nodeMaker(key,value){
 
 
-  return{key,value}
+  return [key,value]
 }
 
 
 
 set(key,value){
-  let Node=this.nodeMaker(key,value);
+  
+  let Node=this.nodeMaker(this.hash(key),value);
 
 
-  this.HashTable[key]=Node
+  this.HashTable[this.hash(key)]=Node
+
+  this.loadFactorCalc()
+}
+
+get(key){
+
+
+return this.HashTable[this.hash(key)]
+
 }
 
 
@@ -36,9 +46,10 @@ loadFactorCalc(){
 
 let loadFactor=75;
 let counter=0;
+
 this.HashTable.forEach(node=>{
 
-if (!(node===null)) {
+if (!(node===undefined)) {
   
   counter++;
 }
@@ -46,22 +57,145 @@ if (!(node===null)) {
 
 })
 
-let currentFactor=Math.floor(counter/this.HashTable.length)
+let capacity=Math.floor((counter/this.HashTable.length)*100);
 
+
+if (capacity>loadFactor) {
+
+  this.createNewBucketList()
+}
+
+}
+
+
+createNewBucketList(){
+
+  let newBucketList=new Array(this.HashTable.length*2);
+
+  let index=0
+  this.HashTable.forEach(node=>{
+
+    newBucketList[node.key]=node;
+
+  })
+
+
+
+this.HashTable=newBucketList;
 
 
 }
 
-addLinkedList(){
+
+has(string){
+
+  let code=this.hash(string)
+  if(code===this.HashTable[code][0]){
+
+    return true
+  }
+
+  return false
+}
+
+remove(string){
+
+  let code=this.hash(string)
+
+  if (!(this.has(string))) {
+    
+    return false
+  }
+this.HashTable.splice(code,1)
+
+return true
+}
+
+length(){
+
+  let counter=0;
+
+  for (let i = 0; i < this.HashTable.length; i++) {
+   
+    if (!(this.HashTable[i]===undefined)) {
+      counter++;
+      
+    }
+   
+    return counter;
+  }
+
 
   
 }
 
 
+clear(){
+
+
+  
+this.HashTable.splice(0,this.HashTable.length)
+  
+
+
+}
+
+keys(){
+
+  let keyArray=[];
+
+  for (let i = 0; i < this.HashTable.length; i++) {
+   if(!(this.HashTable[i]===undefined)){
+
+    keyArray.push(this.HashTable[i][0])
+
+   }
+    
+  }
+
+
+  return keyArray
+}
+
+values(){
+  let valueArray=[];
+
+  for (let i = 0; i < this.HashTable.length; i++) {
+   if(!(this.HashTable[i]===undefined)){
+
+    valueArray.push(this.HashTable[i][1])
+
+   }
+    
+  }
+
+
+  return valueArray
+
+}
+
+entries(){
+
+  let entriesArray=[];
+
+  for (let i = 0; i < this.HashTable.length; i++) {
+   if(!(this.HashTable[i]===undefined)){
+
+    valueArray.push(this.HashTable[i])
+
+   }
+    
+  }
+
+
+  return entriesArray;
+
+}
 
 }
 
 
-let trialOfclass=new Hashmaps();
 
-console.log(trialOfclass.hash("kcaj"))
+
+
+
