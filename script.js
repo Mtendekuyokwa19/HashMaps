@@ -1,169 +1,67 @@
-function node() {
+class Hashmaps{
+
+  HashTable=[];
+
+hash(key){
+
+  let hashCode=0;
+let primeNumber=31;
+
+for (let i = 0; i < key.length; i++) {
+  hashCode=hashCode*primeNumber+key.charCodeAt(i)
+  
+}
+hashCode=hashCode%16
+
+ return hashCode
+}
+
+nodeMaker(key,value){
 
 
-  return{value:null,nextNode:null}
+  return{key,value}
 }
 
 
 
-
-let lastItem=node();
-lastItem.value="lastItem";
-
-let thirdItem=node();
-thirdItem.value="thirdItem";
-thirdItem.nextNode=lastItem;
-
-let secondItem=node()
-secondItem.value="secondItem";
-secondItem.nextNode=thirdItem;
-
-let Head=node();
-Head.value="Head";
-Head.nextNode=secondItem;
+set(key,value){
+  let Node=this.nodeMaker(key,value);
 
 
-let extraItem=node()
-extraItem.value="sade";
+  this.HashTable[key]=Node
+}
 
 
-class LinkedList{
+loadFactorCalc(){
 
-  Head=Head;
-  tail=this.transverse()
+let loadFactor=75;
+let counter=0;
+this.HashTable.forEach(node=>{
 
-append(newNode){
+if (!(node===null)) {
+  
+  counter++;
+}
 
-  if(Head===undefined){
-    Head=newNode
 
-    return 
-  }
+})
 
-  newNode.nextNode=null;
-this.transverse(Head).nextNode=newNode;
+let currentFactor=Math.floor(counter/this.HashTable.length)
 
 
 
 }
-prepend(node){
 
-  node.nextNode=Head;
-  this.Head=node;
+addLinkedList(){
+
+  
+}
+
 
 
 }
 
-size(node=this.Head,length=1){
 
-if(node.nextNode===null){
+let trialOfclass=new Hashmaps();
 
-  return length;
-}
-
-length++;
-return this.size(node.nextNode,length)
-
-
-}
-
-transverse(Head=this.Head){
-
-  if(Head.nextNode===null){
-
-    return Head
-  }
-
- 
-  return this.transverse(Head.nextNode)
-
-
-}
-
-at(index,locatetPos=1,node=this.Head){
-
-  if (index==locatetPos) {
-
-    return node
-  }
-
-  else if(node.nextNode==null){
-    return "not found"
-  }
-  locatetPos++;
-
-  return this.at(index,locatetPos,node.nextNode)
-
-
-}
-
- pop(){
-let beforeLastnode=this.at(this.size()-1)
-beforeLastnode.nextNode=null
-
-
- }
-
- contains(value,node=this.Head){
-
-  if (node.value===value) {
-
-    return true
-  }
-
-  else if(node.nextNode===null){
-
-    return false
-  }
-
-
-return this.contains(value,node.nextNode)
-
- }
-
- find(value,node=this.Head,length=1){
-
-  if (node.value===value) {
-
-    return length
-  }
-
-  else if(node.nextNode===null){
-
-    return "not found"
-  }
-
-length++
-return this.find(value,node.nextNode,length)
-
-
- }
-
- toString(node=this.Head,stringFormat=""){
-
-  if(node.nextNode===null){
-
-    return stringFormat=stringFormat+node.value
-  }
-
-
-  return this.toString(node.nextNode,stringFormat=stringFormat+node.value+" >> ")
-
- }
-
- removesAt(index){
-
-  let nodeBefore=this.at(index-1)
-  let nodeAfter=this.at(index+1)
-  nodeBefore.nextNode=nodeAfter;
- }
-}
-
-let LinkedListFunctionalities=new LinkedList();
-
-
-
-console.log(LinkedListFunctionalities.pop())
-
-// LinkedListFunctionalities.removesAt(2)
-console.log(LinkedListFunctionalities.size())
+console.log(trialOfclass.hash("kcaj"))
